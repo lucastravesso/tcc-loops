@@ -2,7 +2,7 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Stack;
 
-public class Main {
+public class Pilha {
     public static void main(String[] args) {
 
         Stack<Long> pilha = new Stack<>();
