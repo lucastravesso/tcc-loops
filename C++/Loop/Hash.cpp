@@ -10,7 +10,7 @@ int main(){
     PROCESS_MEMORY_COUNTERS_EX pmc_end;
 
     for (int i = 0; i < 1000000; ++i) {
-        hash[i] = i;
+        hash[i] = 0;
     }
     GetProcessMemoryInfo(GetCurrentProcess(), (PROCESS_MEMORY_COUNTERS*)&pmc_end, sizeof(pmc_end));
     SIZE_T memory_used_end = pmc_end.PrivateUsage;
@@ -23,7 +23,7 @@ int main(){
     hash.clear();
 
     for (int i = 0; i < 50000000; ++i) {
-        hash[i] = i;
+        hash[i] = 0;
     }
     GetProcessMemoryInfo(GetCurrentProcess(), (PROCESS_MEMORY_COUNTERS*)&pmc_end, sizeof(pmc_end));
     memory_used_end = pmc_end.PrivateUsage;
@@ -36,7 +36,7 @@ int main(){
     hash.clear();
 
     for (int i = 0; i < 100000000; ++i) {
-        hash[i] = i;
+        hash[i] = 0;
     }
     GetProcessMemoryInfo(GetCurrentProcess(), (PROCESS_MEMORY_COUNTERS*)&pmc_end, sizeof(pmc_end));
     memory_used_end = pmc_end.PrivateUsage;
@@ -49,7 +49,7 @@ int main(){
     hash.clear();
 
     for (int i = 0; i < 150000000; ++i) {
-        hash[i] = i;
+        hash[i] = 0;
     }
     GetProcessMemoryInfo(GetCurrentProcess(), (PROCESS_MEMORY_COUNTERS*)&pmc_end, sizeof(pmc_end));
     memory_used_end = pmc_end.PrivateUsage;
@@ -62,7 +62,7 @@ int main(){
     hash.clear();
 
     for (int i = 0; i < 200000000; ++i) {
-        hash[i] = i;
+        hash[i] = 0;
     }
     GetProcessMemoryInfo(GetCurrentProcess(), (PROCESS_MEMORY_COUNTERS*)&pmc_end, sizeof(pmc_end));
     memory_used_end = pmc_end.PrivateUsage;

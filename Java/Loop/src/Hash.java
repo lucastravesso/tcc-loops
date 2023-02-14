@@ -10,7 +10,7 @@ public class Hash {
         LocalDateTime horaDeInicio;
         horaDeInicio = LocalDateTime.now();
         for (long i = 0; i < 1000000; i++) {
-            hash.put(i, null);
+            hash.put(i, 0L);
         }
         System.out.println("Horario de finalizacaoo:" + Duration.between(horaDeInicio, LocalDateTime.now()).abs().toString().replace("S", "").replace("PT", ""));
         System.out.println("Uso de memoria: " + (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / (1024 * 1024) + " MB");
@@ -19,7 +19,7 @@ public class Hash {
         System.gc();
         horaDeInicio = LocalDateTime.now();
         for (long i = 0; i < 50000000; i++) {
-            hash.put(i, null);
+            hash.put(i, 0L);
         }
         System.out.println("Horario de finalizacaoo:" + Duration.between(horaDeInicio, LocalDateTime.now()).abs().toString().replace("S", "").replace("PT", ""));
         System.out.println("Uso de memoria: " + (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / (1024 * 1024) + " MB");
@@ -28,7 +28,7 @@ public class Hash {
         System.gc();
         horaDeInicio = LocalDateTime.now();
         for (long i = 0; i < 100000000; i++) {
-            hash.put(i, null);
+            hash.put(i, 0L);
         }
         System.out.println("Horario de finalizacaoo:" + Duration.between(horaDeInicio, LocalDateTime.now()).abs().toString().replace("S", "").replace("PT", ""));
         System.out.println("Uso de memoria: " + (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / (1024 * 1024) + " MB");
@@ -37,7 +37,7 @@ public class Hash {
         System.gc();
         horaDeInicio = LocalDateTime.now();
         for (long i = 0; i < 150000000; i++) {
-            hash.put(i, null);
+            hash.put(i, 0L);
         }
         System.out.println("Horario de finalizacaoo:" + Duration.between(horaDeInicio, LocalDateTime.now()).abs().toString().replace("S", "").replace("PT", ""));
         System.out.println("Uso de memoria: " + (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / (1024 * 1024) + " MB");
@@ -46,7 +46,7 @@ public class Hash {
         System.gc();
         horaDeInicio = LocalDateTime.now();
         for (long i = 0; i < 200000000; i++) {
-            hash.put(i, null);
+            hash.put(i, 0L);
         }
         System.out.println("Horario de finalizacaoo:" + Duration.between(horaDeInicio, LocalDateTime.now()).abs().toString().replace("S", "").replace("PT", ""));
         System.out.println("Uso de memoria: " + (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / (1024 * 1024) + " MB");
