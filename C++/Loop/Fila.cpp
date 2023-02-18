@@ -5,7 +5,7 @@
 #include "iostream"
 
 int main(){
-    std::list<int> fila;
+    std::list<long> fila;
     auto horaDeInicio = std::chrono::system_clock::now();
     PROCESS_MEMORY_COUNTERS_EX pmc_start;
     GetProcessMemoryInfo(GetCurrentProcess(), (PROCESS_MEMORY_COUNTERS*)&pmc_start, sizeof(pmc_start));

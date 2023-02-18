@@ -5,7 +5,7 @@
 #include <psapi.h>
 
 int main(){
-    std::stack<int> pilha;
+    std::stack<long> pilha;
     auto horaDeInicio = std::chrono::system_clock::now();
     PROCESS_MEMORY_COUNTERS_EX pmc_end;
     for (int i = 0; i < 1000000; ++i) {

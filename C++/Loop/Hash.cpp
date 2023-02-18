@@ -5,7 +5,7 @@
 #include <psapi.h>
 
 int main(){
-    std::unordered_map<int, int> hash;
+    std::unordered_map<long, long> hash;
     auto horaDeInicio = std::chrono::system_clock::now();
     PROCESS_MEMORY_COUNTERS_EX pmc_end;
 

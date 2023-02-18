@@ -1,0 +1,3 @@
+/Users/dennisalves/CLionProjects/Loop-C/cmake-build-debug/CMakeFiles/Loop_C.dir
+/Users/dennisalves/CLionProjects/Loop-C/cmake-build-debug/CMakeFiles/edit_cache.dir
+/Users/dennisalves/CLionProjects/Loop-C/cmake-build-debug/CMakeFiles/rebuild_cache.dir
