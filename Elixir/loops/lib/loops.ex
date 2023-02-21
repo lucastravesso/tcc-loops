@@ -32,7 +32,7 @@ defmodule Loops do
     hora_de_inicio = :os.system_time(:millisecond)
     memory_bef = :erlang.memory()
     map = %{}
-    map = for i <- 1..50000000, do: map = Map.put(map, i, 0)
+    map = for i <- 1..150000000, do: map = Map.put(map, i, 0)
     memory_aft = :erlang.memory()
     hora_de_fim = :os.system_time(:millisecond)
     elapsed_time = (hora_de_fim - hora_de_inicio) / 1000.0
