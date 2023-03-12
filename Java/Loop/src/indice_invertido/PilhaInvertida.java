@@ -4,7 +4,7 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.*;
 
-public class FilaInvertida {
+public class PilhaInvertida {
 
     private static final int MIN_REPETICOES = 2;
     private static final int MAX_VALOR = 1000;
@@ -29,7 +29,7 @@ public class FilaInvertida {
         LocalDateTime horaDeInicio;
         horaDeInicio = LocalDateTime.now();
         // Criar lista de listas de pilhas para armazenar índices de valores repetidos em cada coluna
-        List<List<Queue<Integer>>> pilhasPorValor = new ArrayList<>();
+        List<List<Stack<Integer>>> pilhasPorValor = new ArrayList<>();
         for (int j = 0; j < NUM_COLUNAS; j++) {
             Map<Integer, List<Integer>> mapa = new HashMap<>();
             for (int i = 0; i < NUM_LINHAS; i++) {
@@ -39,13 +39,13 @@ public class FilaInvertida {
                     mapa.put(matriz[i][j], new ArrayList<>(Arrays.asList(i)));
                 }
             }
-            List<Queue<Integer>> pilhas = new ArrayList<>();
+            List<Stack<Integer>> pilhas = new ArrayList<>();
             for (Map.Entry<Integer, List<Integer>> entry : mapa.entrySet()) {
                 List<Integer> indices = entry.getValue();
                 if (indices.size() >= MIN_REPETICOES) {
-                    Queue<Integer> pilha = new ArrayDeque<>();
+                    Stack<Integer> pilha = new Stack<>();
                     for (int i : indices) {
-                        pilha.add(i);
+                        pilha.push(i);
                     }
                     pilhas.add(pilha);
                 }
@@ -64,10 +64,10 @@ public class FilaInvertida {
 //        }
 //        for (int j = 0; j < NUM_COLUNAS; j++) {
 //            System.out.println((char) ('A' + j) + ":");
-//            List<Queue<Integer>> pilhas = pilhasPorValor.get(j);
+//            List<Stack<Integer>> pilhas = pilhasPorValor.get(j);
 //            for (int i = 0; i < pilhas.size(); i++) {
 //                System.out.print((i + 1) + ": ");
-//                Queue<Integer> pilha = pilhas.get(i);
+//                Stack<Integer> pilha = pilhas.get(i);
 //                while (!pilha.isEmpty()) {
 //                    System.out.print(pilha.pop() + " ");
 //                }
