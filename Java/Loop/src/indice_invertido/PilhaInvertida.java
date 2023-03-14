@@ -7,11 +7,11 @@ import java.util.*;
 public class PilhaInvertida {
 
     private static final int MIN_REPETICOES = 2;
-    private static final int MAX_VALOR = 1000;
+    private static final int MAX_VALOR = 9;
 
     // 10kk
-    private static final int NUM_LINHAS = 10000000;
-    private static final int NUM_COLUNAS = 10;
+    private static final int NUM_LINHAS = 10;
+    private static final int NUM_COLUNAS = 5;
 
     public static void main(String[] args) {
 
@@ -55,24 +55,23 @@ public class PilhaInvertida {
         System.out.println("Horario de finalizacaoo:" + Duration.between(horaDeInicio, LocalDateTime.now()).abs().toString().replace("S", "").replace("PT", ""));
         System.out.println("Uso de memoria: " + (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / (1024 * 1024) + " MB");
 
-        // Imprimir matriz e lista de pilhas por valor repetido em cada coluna
-//        for (int i = 0; i < NUM_LINHAS; i++) {
-//            for (int j = 0; j < NUM_COLUNAS; j++) {
-//                System.out.print(matriz[i][j] + "\t");
-//            }
-//            System.out.println();
-//        }
-//        for (int j = 0; j < NUM_COLUNAS; j++) {
-//            System.out.println((char) ('A' + j) + ":");
-//            List<Stack<Integer>> pilhas = pilhasPorValor.get(j);
-//            for (int i = 0; i < pilhas.size(); i++) {
-//                System.out.print((i + 1) + ": ");
-//                Stack<Integer> pilha = pilhas.get(i);
-//                while (!pilha.isEmpty()) {
-//                    System.out.print(pilha.pop() + " ");
-//                }
-//                System.out.println();
-//            }
-//        }
+        for (int i = 0; i < NUM_LINHAS; i++) {
+            for (int j = 0; j < NUM_COLUNAS; j++) {
+                System.out.print(matriz[i][j] + "\t");
+            }
+            System.out.println();
+        }
+        for (int j = 0; j < NUM_COLUNAS; j++) {
+            System.out.println((char) ('A' + j) + ":");
+            List<Stack<Integer>> pilhas = pilhasPorValor.get(j);
+            for (int i = 0; i < pilhas.size(); i++) {
+                System.out.print((i + 1) + ": ");
+                Stack<Integer> pilha = pilhas.get(i);
+                while (!pilha.isEmpty()) {
+                    System.out.print(pilha.pop() + " ");
+                }
+                System.out.println();
+            }
+        }
     }
 }
