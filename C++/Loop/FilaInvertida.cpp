@@ -1,48 +1,48 @@
-
 #include <iostream>
-#include <vector>
 #include <stack>
+#include <vector>
 #include <map>
-#include <random>
-#include <algorithm>
+#include <list>
+#include <chrono>
+#include <Windows.h>
+#include <psapi.h>
 
 using namespace std;
 
-const int MIN_REPETICOES = 2;
-const int MAX_VALOR = 9;
-const int NUM_LINHAS = 10;
+const int MAX_VALOR = 1000;
+const int NUM_LINHAS = 10000;
 const int NUM_COLUNAS = 5;
 
 int main() {
-// Criar matriz com 10000 linhas e 11 colunas
     int matriz[NUM_LINHAS][NUM_COLUNAS];
-// Preencher matriz com valores aleatórios de 1 a 1000
-    random_device rd;
-    mt19937 gen(rd());
-    uniform_int_distribution<> distrib(1, MAX_VALOR);
+
+    srand(time(0));
     for (int i = 0; i < NUM_LINHAS; i++) {
         for (int j = 0; j < NUM_COLUNAS; j++) {
-            matriz[i][j] = distrib(gen);
+            matriz[i][j] = rand() % MAX_VALOR + 1;
         }
     }
 
-// Criar lista de listas de pilhas para armazenar índices de valores repetidos em cada coluna
+    auto horaDeInicio = std::chrono::system_clock::now();
+    PROCESS_MEMORY_COUNTERS_EX pmc_start;
+    GetProcessMemoryInfo(GetCurrentProcess(), (PROCESS_MEMORY_COUNTERS*)&pmc_start, sizeof(pmc_start));
+
     vector<vector<stack<int>>> pilhasPorValor(NUM_COLUNAS);
     for (int j = 0; j < NUM_COLUNAS; j++) {
-        map<int, vector<int>> mapa;
+        map<int, list<int>> mapa;
         for (int i = 0; i < NUM_LINHAS; i++) {
             if (mapa.count(matriz[i][j])) {
                 mapa[matriz[i][j]].push_back(i);
             } else {
-                mapa[matriz[i][j]] = vector<int>{i};
+                mapa[matriz[i][j]] = {i};
             }
         }
         vector<stack<int>> pilhas;
-        for (auto &entry: mapa) {
-            vector<int> indices = entry.second;
-            if (indices.size() >= MIN_REPETICOES) {
+        for (auto entry : mapa) {
+            list<int> indices = entry.second;
+            if (indices.size() >= 1) {
                 stack<int> pilha;
-                for (int i: indices) {
+                for (int i : indices) {
                     pilha.push(i);
                 }
                 pilhas.push_back(pilha);
@@ -50,28 +50,38 @@ int main() {
         }
         pilhasPorValor[j] = pilhas;
     }
+    auto horaDeFim = std::chrono::system_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(horaDeFim - horaDeInicio);
 
-    for (int i = 0; i < NUM_LINHAS; i++) {
-        for (int j = 0; j < NUM_COLUNAS; j++) {
-            cout << matriz[i][j] << "\t";
-        }
-        cout << endl;
-    }
+    PROCESS_MEMORY_COUNTERS_EX pmc_end;
+    GetProcessMemoryInfo(GetCurrentProcess(), (PROCESS_MEMORY_COUNTERS*)&pmc_end, sizeof(pmc_end));
 
-    for (int j = 0; j < NUM_COLUNAS; j++) {
-        cout << (char) ('A' + j) << ":" << endl;
-        vector<stack<int>> pilhas = pilhasPorValor[j];
-        for (int i = 0; i < pilhas.size(); i++) {
-            stack<int> pilha = pilhas[i];
-            int valor = matriz[pilha.top()][j];
-            cout << valor << " : ";
-            while (!pilha.empty()) {
-                cout << pilha.top() << " ";
-                pilha.pop();
-            }
-            cout << endl;
-        }
-    }
+    SIZE_T memory_used_end = pmc_end.PrivateUsage;
+
+    std::cout << "Memoria " << memory_used_end / 1024 / 1024 << std::endl;
+    std::cout << "Tempo " << duration.count() / 1000.0 << std::endl;
+
+//    for (int i = 0; i < NUM_LINHAS; i++) {
+//        for (int j = 0; j < NUM_COLUNAS; j++) {
+//            cout << matriz[i][j] << "\t";
+//        }
+//        cout << endl;
+//    }
+//
+//    for (int j = 0; j < NUM_COLUNAS; j++) {
+//        cout << char('A' + j) << ":" << endl;
+//        vector<stack<int>> pilhas = pilhasPorValor[j];
+//        for (int i = 0; i < pilhas.size(); i++) {
+//            stack<int> pilha = pilhas[i];
+//            int valor = matriz[pilha.top()][j];
+//            cout << valor << " : ";
+//            while (!pilha.empty()) {
+//                cout << pilha.top() << " ";
+//                pilha.pop();
+//            }
+//            cout << endl;
+//        }
+//    }
 
     return 0;
 }
