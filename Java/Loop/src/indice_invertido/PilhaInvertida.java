@@ -6,7 +6,6 @@ import java.util.*;
 
 public class PilhaInvertida {
 
-    private static final int MIN_REPETICOES = 2;
     private static final int MAX_VALOR = 9;
 
     // 10kk
@@ -15,10 +14,8 @@ public class PilhaInvertida {
 
     public static void main(String[] args) {
 
-        // Criar matriz com 10000 linhas e 11 colunas
         int[][] matriz = new int[NUM_LINHAS][NUM_COLUNAS];
 
-        // Preencher matriz com valores aleatórios de 1 a 1000
         Random random = new Random();
         for (int i = 0; i < NUM_LINHAS; i++) {
             for (int j = 0; j < NUM_COLUNAS; j++) {
@@ -42,7 +39,7 @@ public class PilhaInvertida {
             List<Stack<Integer>> pilhas = new ArrayList<>();
             for (Map.Entry<Integer, List<Integer>> entry : mapa.entrySet()) {
                 List<Integer> indices = entry.getValue();
-                if (indices.size() >= MIN_REPETICOES) {
+                if (indices.size() >= 1) {
                     Stack<Integer> pilha = new Stack<>();
                     for (int i : indices) {
                         pilha.push(i);
@@ -54,6 +51,8 @@ public class PilhaInvertida {
         }
         System.out.println("Horario de finalizacaoo:" + Duration.between(horaDeInicio, LocalDateTime.now()).abs().toString().replace("S", "").replace("PT", ""));
         System.out.println("Uso de memoria: " + (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / (1024 * 1024) + " MB");
+
+
 
         for (int i = 0; i < NUM_LINHAS; i++) {
             for (int j = 0; j < NUM_COLUNAS; j++) {
