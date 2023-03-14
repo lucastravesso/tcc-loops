@@ -61,12 +61,15 @@ public class PilhaInvertida {
             }
             System.out.println();
         }
+
+
         for (int j = 0; j < NUM_COLUNAS; j++) {
             System.out.println((char) ('A' + j) + ":");
             List<Stack<Integer>> pilhas = pilhasPorValor.get(j);
             for (int i = 0; i < pilhas.size(); i++) {
-                System.out.print((i + 1) + ": ");
                 Stack<Integer> pilha = pilhas.get(i);
+                int valor = matriz[pilha.peek()][j];
+                System.out.print(valor + " : ");
                 while (!pilha.isEmpty()) {
                     System.out.print(pilha.pop() + " ");
                 }
