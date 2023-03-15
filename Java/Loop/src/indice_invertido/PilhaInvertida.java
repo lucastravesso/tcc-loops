@@ -6,8 +6,8 @@ import java.util.*;
 
 public class PilhaInvertida {
 
-    private static final int MAX_VALOR = 10000;
-    private static final int NUM_LINHAS = 50000000;
+    private static final int MAX_VALOR = 9;
+    private static final int NUM_LINHAS = 100;
     private static final int NUM_COLUNAS = 10;
 
     public static void main(String[] args) {
@@ -23,10 +23,10 @@ public class PilhaInvertida {
 
         LocalDateTime horaDeInicio;
         horaDeInicio = LocalDateTime.now();
-        // Criar lista de listas de pilhas para armazenar índices de valores repetidos em cada coluna
-        List<List<Stack<Integer>>> pilhasPorValor = new ArrayList<>();
+        // Criar lista de mapas para armazenar índices de valores repetidos em cada coluna
+        List<HashMap<Integer, List<Integer>>> indicesPorValor = new ArrayList<>();
         for (int j = 0; j < NUM_COLUNAS; j++) {
-            Map<Integer, List<Integer>> mapa = new HashMap<>();
+            HashMap<Integer, List<Integer>> mapa = new HashMap<>();
             for (int i = 0; i < NUM_LINHAS; i++) {
                 if (mapa.containsKey(matriz[i][j])) {
                     mapa.get(matriz[i][j]).add(i);
@@ -34,44 +34,34 @@ public class PilhaInvertida {
                     mapa.put(matriz[i][j], new ArrayList<>(Arrays.asList(i)));
                 }
             }
-            List<Stack<Integer>> pilhas = new ArrayList<>();
-            for (Map.Entry<Integer, List<Integer>> entry : mapa.entrySet()) {
-                List<Integer> indices = entry.getValue();
-                if (indices.size() >= 1) {
-                    Stack<Integer> pilha = new Stack<>();
-                    for (int i : indices) {
-                        pilha.push(i);
-                    }
-                    pilhas.add(pilha);
-                }
-            }
-            pilhasPorValor.add(pilhas);
+            indicesPorValor.add(mapa);
         }
         System.out.println("Horario de finalizacaoo:" + Duration.between(horaDeInicio, LocalDateTime.now()).abs().toString().replace("S", "").replace("PT", ""));
         System.out.println("Uso de memoria: " + (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / (1024 * 1024) + " MB");
 
-//
-//
-//        for (int i = 0; i < NUM_LINHAS; i++) {
-//            for (int j = 0; j < NUM_COLUNAS; j++) {
-//                System.out.print(matriz[i][j] + "\t");
-//            }
-//            System.out.println();
-//        }
-//
-//
-//        for (int j = 0; j < NUM_COLUNAS; j++) {
-//            System.out.println((char) ('A' + j) + ":");
-//            List<Stack<Integer>> pilhas = pilhasPorValor.get(j);
-//            for (int i = 0; i < pilhas.size(); i++) {
-//                Stack<Integer> pilha = pilhas.get(i);
-//                int valor = matriz[pilha.peek()][j];
-//                System.out.print(valor + " : ");
-//                while (!pilha.isEmpty()) {
-//                    System.out.print(pilha.pop() + " ");
-//                }
-//                System.out.println();
-//            }
-//        }
+        for (int i = 0; i < NUM_LINHAS; i++) {
+            for (int j = 0; j < NUM_COLUNAS; j++) {
+                System.out.print(matriz[i][j] + "\t");
+            }
+            System.out.println();
+        }
+
+
+        for (int j = 0; j < NUM_COLUNAS; j++) {
+            System.out.println((char) ('A' + j) + ":");
+            HashMap<Integer, List<Integer>> mapa = indicesPorValor.get(j);
+            for (Map.Entry<Integer, List<Integer>> entry : mapa.entrySet()) {
+                int valor = entry.getKey();
+                List<Integer> indices = entry.getValue();
+                if (indices.size() >= 1) {
+                    System.out.print(valor + " : ");
+                    for (int i : indices) {
+                        System.out.print(i + " ");
+                    }
+                    System.out.println();
+                }
+            }
+        }
     }
+
 }

@@ -6,7 +6,6 @@ import java.util.*;
 
 public class MapaInvertido {
 
-    static final int MIN_REPETICOES = 2;
     static final int MAX_VALOR = 9;
     static final int NUM_LINHAS = 10;
     static final int NUM_COLUNAS = 11;
@@ -20,6 +19,8 @@ public class MapaInvertido {
             }
         }
 
+        LocalDateTime horaDeInicio;
+        horaDeInicio = LocalDateTime.now();
         // Criar mapa para armazenar índices de valores repetidos em cada coluna
         List<Map<Integer, List<Integer>>> mapasPorColuna = new ArrayList<>();
         for (int j = 0; j < NUM_COLUNAS; j++) {
@@ -43,15 +44,16 @@ public class MapaInvertido {
             for (Map.Entry<Integer, List<Integer>> entry : mapa.entrySet()) {
                 int valor = entry.getKey();
                 List<Integer> indices = entry.getValue();
-                if (indices.size() >= MIN_REPETICOES) {
+                if (indices.size() >= 1) {
                     Collections.sort(indices);
                     mapaFiltrado.put(valor, indices);
                 }
             }
             mapasDeValoresRepetidos.add(mapaFiltrado);
         }
-//
-        // Imprimir matriz e mapa de valores repetidos em cada coluna
+        System.out.println("Horario de finalizacaoo:" + Duration.between(horaDeInicio, LocalDateTime.now()).abs().toString().replace("S", "").replace("PT", ""));
+        System.out.println("Uso de memoria: " + (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / (1024 * 1024) + " MB");
+
         for (int i = 0; i < NUM_LINHAS; i++) {
             for (int j = 0; j < NUM_COLUNAS; j++) {
                 System.out.print(matriz[i][j] + "\t");

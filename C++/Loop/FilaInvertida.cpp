@@ -10,8 +10,8 @@
 using namespace std;
 
 const int MAX_VALOR = 1000;
-const int NUM_LINHAS = 10000;
-const int NUM_COLUNAS = 5;
+const int NUM_LINHAS = 1000000;
+const int NUM_COLUNAS = 10;
 
 int main() {
     int matriz[NUM_LINHAS][NUM_COLUNAS];

@@ -6,19 +6,14 @@ import java.util.*;
 
 public class FilaInvertida {
 
-    private static final int MIN_REPETICOES = 2;
     private static final int MAX_VALOR = 9;
-
-    // 10kk
     private static final int NUM_LINHAS = 100;
-    private static final int NUM_COLUNAS = 5;
+    private static final int NUM_COLUNAS = 10;
 
     public static void main(String[] args) {
 
-        // Criar matriz com 10000 linhas e 11 colunas
         int[][] matriz = new int[NUM_LINHAS][NUM_COLUNAS];
 
-        // Preencher matriz com valores aleatórios de 1 a 1000
         Random random = new Random();
         for (int i = 0; i < NUM_LINHAS; i++) {
             for (int j = 0; j < NUM_COLUNAS; j++) {
@@ -28,8 +23,8 @@ public class FilaInvertida {
 
         LocalDateTime horaDeInicio;
         horaDeInicio = LocalDateTime.now();
-        // Criar lista de listas de pilhas para armazenar índices de valores repetidos em cada coluna
-        List<List<Queue<Integer>>> pilhasPorValor = new ArrayList<>();
+        // Criar lista de listas de filas para armazenar índices de valores repetidos em cada coluna
+        List<List<Queue<Integer>>> filasPorValor = new ArrayList<>();
         for (int j = 0; j < NUM_COLUNAS; j++) {
             Map<Integer, List<Integer>> mapa = new HashMap<>();
             for (int i = 0; i < NUM_LINHAS; i++) {
@@ -39,18 +34,18 @@ public class FilaInvertida {
                     mapa.put(matriz[i][j], new ArrayList<>(Arrays.asList(i)));
                 }
             }
-            List<Queue<Integer>> pilhas = new ArrayList<>();
+            List<Queue<Integer>> filas = new ArrayList<>();
             for (Map.Entry<Integer, List<Integer>> entry : mapa.entrySet()) {
                 List<Integer> indices = entry.getValue();
-                if (indices.size() >= MIN_REPETICOES) {
-                    Queue<Integer> pilha = new ArrayDeque<>();
+                if (indices.size() >= 1) {
+                    Queue<Integer> fila = new LinkedList<>();
                     for (int i : indices) {
-                        pilha.add(i);
+                        fila.add(i);
                     }
-                    pilhas.add(pilha);
+                    filas.add(fila);
                 }
             }
-            pilhasPorValor.add(pilhas);
+            filasPorValor.add(filas);
         }
         System.out.println("Horario de finalizacaoo:" + Duration.between(horaDeInicio, LocalDateTime.now()).abs().toString().replace("S", "").replace("PT", ""));
         System.out.println("Uso de memoria: " + (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / (1024 * 1024) + " MB");
@@ -63,14 +58,17 @@ public class FilaInvertida {
             }
             System.out.println();
         }
+
+
         for (int j = 0; j < NUM_COLUNAS; j++) {
             System.out.println((char) ('A' + j) + ":");
-            List<Queue<Integer>> pilhas = pilhasPorValor.get(j);
-            for (int i = 0; i < pilhas.size(); i++) {
-                System.out.print((i + 1) + ": ");
-                Queue<Integer> pilha = pilhas.get(i);
-                while (!pilha.isEmpty()) {
-                    System.out.print(pilha.remove() + " ");
+            List<Queue<Integer>> filas = filasPorValor.get(j);
+            for (int i = 0; i < filas.size(); i++) {
+                Queue<Integer> fila = filas.get(i);
+                int valor = matriz[fila.peek()][j];
+                System.out.print(valor + " : ");
+                while (!fila.isEmpty()) {
+                    System.out.print(fila.poll() + " ");
                 }
                 System.out.println();
             }
