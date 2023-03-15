@@ -6,7 +6,6 @@
 #include <chrono>
 #include <Windows.h>
 #include <psapi.h>
-#include <queue>
 
 using namespace std;
 
@@ -28,7 +27,7 @@ int main() {
     PROCESS_MEMORY_COUNTERS_EX pmc_start;
     GetProcessMemoryInfo(GetCurrentProcess(), (PROCESS_MEMORY_COUNTERS*)&pmc_start, sizeof(pmc_start));
 
-    vector<vector<queue<int>>> filasPorValor(NUM_COLUNAS);
+    vector<vector<stack<int>>> pilhasPorValor(NUM_COLUNAS);
     for (int j = 0; j < NUM_COLUNAS; j++) {
         map<int, list<int>> mapa;
         for (int i = 0; i < NUM_LINHAS; i++) {
@@ -38,18 +37,18 @@ int main() {
                 mapa[matriz[i][j]] = {i};
             }
         }
-        vector<queue<int>> filas;
+        vector<stack<int>> pilhas;
         for (auto entry : mapa) {
             list<int> indices = entry.second;
             if (indices.size() >= 1) {
-                queue<int> fila;
+                stack<int> pilha;
                 for (int i : indices) {
-                    fila.push(i);
+                    pilha.push(i);
                 }
-                filas.push_back(fila);
+                pilhas.push_back(pilha);
             }
         }
-        filasPorValor[j] = filas;
+        pilhasPorValor[j] = pilhas;
     }
     auto horaDeFim = std::chrono::system_clock::now();
     auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(horaDeFim - horaDeInicio);
@@ -71,14 +70,14 @@ int main() {
 
     for (int j = 0; j < NUM_COLUNAS; j++) {
         cout << char('A' + j) << ":" << endl;
-        vector<queue<int>> filas = filasPorValor[j];
-        for (int i = 0; i < filas.size(); i++) {
-            queue<int> fila = filas[i];
-            int valor = matriz[fila.front()][j];
+        vector<stack<int>> pilhas = pilhasPorValor[j];
+        for (int i = 0; i < pilhas.size(); i++) {
+            stack<int> pilha = pilhas[i];
+            int valor = matriz[pilha.top()][j];
             cout << valor << " : ";
-            while (!fila.empty()) {
-                cout << fila.front() << " ";
-                fila.pop();
+            while (!pilha.empty()) {
+                cout << pilha.top() << " ";
+                pilha.pop();
             }
             cout << endl;
         }

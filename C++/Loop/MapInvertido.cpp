@@ -1,12 +1,12 @@
 #include <iostream>
 #include <stack>
 #include <vector>
+#include <unordered_map>
 #include <map>
 #include <list>
 #include <chrono>
 #include <Windows.h>
 #include <psapi.h>
-#include <queue>
 
 using namespace std;
 
@@ -28,9 +28,9 @@ int main() {
     PROCESS_MEMORY_COUNTERS_EX pmc_start;
     GetProcessMemoryInfo(GetCurrentProcess(), (PROCESS_MEMORY_COUNTERS*)&pmc_start, sizeof(pmc_start));
 
-    vector<vector<queue<int>>> filasPorValor(NUM_COLUNAS);
+    vector<unordered_map<int, vector<int>>> pilhasPorValor(NUM_COLUNAS);
     for (int j = 0; j < NUM_COLUNAS; j++) {
-        map<int, list<int>> mapa;
+        unordered_map<int, list<int>> mapa;
         for (int i = 0; i < NUM_LINHAS; i++) {
             if (mapa.count(matriz[i][j])) {
                 mapa[matriz[i][j]].push_back(i);
@@ -38,18 +38,18 @@ int main() {
                 mapa[matriz[i][j]] = {i};
             }
         }
-        vector<queue<int>> filas;
+        unordered_map<int, vector<int>> pilhas;
         for (auto entry : mapa) {
             list<int> indices = entry.second;
             if (indices.size() >= 1) {
-                queue<int> fila;
+                vector<int> pilha;
                 for (int i : indices) {
-                    fila.push(i);
+                    pilha.push_back(i);
                 }
-                filas.push_back(fila);
+                pilhas[entry.first] = pilha;
             }
         }
-        filasPorValor[j] = filas;
+        pilhasPorValor[j] = pilhas;
     }
     auto horaDeFim = std::chrono::system_clock::now();
     auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(horaDeFim - horaDeInicio);
@@ -71,14 +71,13 @@ int main() {
 
     for (int j = 0; j < NUM_COLUNAS; j++) {
         cout << char('A' + j) << ":" << endl;
-        vector<queue<int>> filas = filasPorValor[j];
-        for (int i = 0; i < filas.size(); i++) {
-            queue<int> fila = filas[i];
-            int valor = matriz[fila.front()][j];
+        unordered_map<int, vector<int>> pilhas = pilhasPorValor[j];
+        for (auto entry : pilhas) {
+            int valor = entry.first;
+            vector<int> pilha = entry.second;
             cout << valor << " : ";
-            while (!fila.empty()) {
-                cout << fila.front() << " ";
-                fila.pop();
+            for (int i : pilha) {
+                cout << i << " ";
             }
             cout << endl;
         }
